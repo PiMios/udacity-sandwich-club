@@ -18,6 +18,11 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
 
+    private TextView origin;
+    private TextView description;
+    private TextView ingredients;
+    private TextView alsoKnown;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,21 +66,21 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich) {
 
-        TextView originTv = findViewById(R.id.origin_tv);
+        origin = (TextView) findViewById(R.id.tv_place_of_origin);
+        description = (TextView) findViewById(R.id.tv_description);
+        ingredients = (TextView) findViewById(R.id.tv_ingredients);
+        alsoKnown = (TextView) findViewById(R.id.tv_also_known_as);
 
-        TextView descriptionTv = findViewById(R.id.description_tv);
+        origin.setText(sandwich.getMainName());
+        description.setText(sandwich.getDescription());
+        origin.setText(sandwich.getPlaceOfOrigin());
 
-        TextView ingredientsTv = findViewById(R.id.ingredients_tv);
-
-        TextView alsoKnownTv = findViewById(R.id.also_known_tv);
-
-        originTv.setText(sandwich.getMainName());
-        descriptionTv.setText(sandwich.getDescription());
-        originTv.setText(sandwich.getPlaceOfOrigin());
-        settingList(sandwich.getIngredients(), ingredientsTv);
-        settingList(sandwich.getAlsoKnownAs(), alsoKnownTv);
+        settingList(sandwich.getIngredients(), ingredients);
+        settingList(sandwich.getAlsoKnownAs(), alsoKnown);
 
     }
+
+    /*I know the UI works with the method below, but need to understand why. This was taken from https://github.com/angelynaliem/SandwichApp*/
 
     private void settingList(List<String> list, TextView textView) {
         StringBuilder data = new StringBuilder();
