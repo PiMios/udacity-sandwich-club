@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
-import org.w3c.dom.Text;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -60,15 +60,32 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
-        TextView ingredients = (TextView) findViewById(R.id.ingredients_tv);
-        TextView ingredientsLabel = (TextView) findViewById(R.id.tv_ingredients_label);
-        TextView alsoKnownAs = (TextView) findViewById(R.id.also_known_tv);
-        TextView akaLabel = (TextView) findViewById(R.id.tv_aka_label);
-        TextView alsoKnown = (TextView) findViewById(R.id.also_known_tv);
-        TextView originLabel = (TextView) findViewById(R.id.tv_place_of_origin);
-        TextView origin = (TextView) findViewById(R.id.origin_tv);
-        TextView descriptionLabel = (TextView) findViewById(R.id.description_tv);
-        ImageView image = (ImageView) findViewById(R.id.image_iv);
+
+        TextView originTv = findViewById(R.id.origin_tv);
+
+        TextView descriptionTv = findViewById(R.id.description_tv);
+
+        TextView ingredientsTv = findViewById(R.id.ingredients_tv);
+
+        TextView alsoKnownTv = findViewById(R.id.also_known_tv);
+
+        originTv.setText(sandwich.getMainName());
+        descriptionTv.setText(sandwich.getDescription());
+        originTv.setText(sandwich.getPlaceOfOrigin());
+        settingList(sandwich.getIngredients(), ingredientsTv);
+        settingList(sandwich.getAlsoKnownAs(), alsoKnownTv);
+
+    }
+
+    private void settingList(List<String> list, TextView textView) {
+        StringBuilder data = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            data.append(list.get(i));
+            if (i != list.size() - 1)
+                data.append(",");
+        }
+
+        textView.setText(data.toString().replace(",", "\n"));
 
     }
 }

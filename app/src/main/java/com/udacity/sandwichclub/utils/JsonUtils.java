@@ -11,38 +11,40 @@ import java.util.ArrayList;
 public class JsonUtils {
 
     public static Sandwich parseSandwichJson(String json) {
+        Sandwich sw = null;
+
         String mainName;
         String placeOfOrigin;
         String description;
         String image;
 
         try {
-            JSONObject sammichDetails = new JSONObject(json);
-            JSONObject name = sammichDetails.getJSONObject("name");
-            mainName = name.getString("manName");
+            JSONObject sandwichMenu = new JSONObject(json);
+            JSONObject name = sandwichMenu.getJSONObject("name");
+            mainName = name.getString("mainName");
 
-            JSONArray alsoKnwonAsArray = name.getJSONArray("alsoKnownAs");
-            ArrayList<String> sammichNames = new ArrayList<>();
-            for (int i = 0; i < alsoKnwonAsArray.length(); i++) {
-                sammichNames.add(alsoKnwonAsArray.getString(i));
+            JSONArray akaArray = name.getJSONArray("alsoKnownAs");
+            ArrayList<String> listOfNames = new ArrayList<>();
+            for (int i = 0; i < akaArray.length(); i++) {
+                listOfNames.add(akaArray.getString(i));
             }
 
-            placeOfOrigin = sammichDetails.getString("placeOfOrigin");
-            description = sammichDetails.getString("description");
+            placeOfOrigin = sandwichMenu.getString("placeOfOrigin");
+            description = sandwichMenu.getString("description");
+            image = sandwichMenu.getString("image");
 
-            image = sammichDetails.getString("image");
-
-            JSONArray ingredientsArray = sammichDetails.getJSONArray("ingredients");
-            ArrayList<String> sammichIngredients = new ArrayList<>();
+            JSONArray ingredientsArray = sandwichMenu.getJSONArray("ingredients");
+            ArrayList<String> listOfIngredients = new ArrayList<>();
             for (int i = 0; i < ingredientsArray.length(); i++) {
-                sammichIngredients.add(ingredientsArray.getString(i));
+                listOfIngredients.add(ingredientsArray.getString(i));
             }
 
-            return new Sandwich(mainName, sammichNames, placeOfOrigin, description, image, sammichIngredients);
+            return new Sandwich(mainName, listOfNames, placeOfOrigin, description, image, listOfIngredients);
+
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace();;
         }
 
-        return null;
+        return sw;
     }
 }
