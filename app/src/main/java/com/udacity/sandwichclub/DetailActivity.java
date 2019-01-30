@@ -3,6 +3,8 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,8 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
+
+    // Declare TextView variables
 
     private TextView origin;
     private TextView description;
@@ -51,6 +55,8 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
+        // Load images
+
         populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
@@ -66,31 +72,38 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich) {
 
+        // Populate TextView boxes
+
         origin = (TextView) findViewById(R.id.tv_place_of_origin);
         description = (TextView) findViewById(R.id.tv_description);
         ingredients = (TextView) findViewById(R.id.tv_ingredients);
         alsoKnown = (TextView) findViewById(R.id.tv_also_known_as);
-
-        origin.setText(sandwich.getMainName());
         description.setText(sandwich.getDescription());
         origin.setText(sandwich.getPlaceOfOrigin());
 
-        settingList(sandwich.getIngredients(), ingredients);
-        settingList(sandwich.getAlsoKnownAs(), alsoKnown);
+        // Pull data from JSON arrays to populate TextView
+
+        getList(sandwich.getIngredients(), ingredients);
+        getList(sandwich.getAlsoKnownAs(), alsoKnown);
 
     }
 
-    /*I know the UI works with the method below, but need to understand why. This was taken from https://github.com/angelynaliem/SandwichApp*/
+    /* Method below sampled from https://github.com/angelynaliem/SandwichApp to sort
+    thru ingredients and AKA */
 
-    private void settingList(List<String> list, TextView textView) {
-        StringBuilder data = new StringBuilder();
+    private void getList(List<String> list, TextView textView) {
+        StringBuilder listInfo = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
-            data.append(list.get(i));
+            listInfo.append(list.get(i));
             if (i != list.size() - 1)
-                data.append(",");
+                listInfo.append("\n");
         }
 
-        textView.setText(data.toString().replace(",", "\n"));
+        // Convert object data to string
+
+        textView.setText(listInfo.toString());
 
     }
+
+
 }
